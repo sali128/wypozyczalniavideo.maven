@@ -1,7 +1,7 @@
 package sala.patryk.projekt.wypozyczalniavideo;
 
 import org.apache.log4j.Logger;
-
+import services.CustomerDBManager;
 
 public class Main {
 
@@ -51,6 +51,23 @@ public class Main {
 		customer2.showAllMyRentedMovies();
 		
 		videoRental.printAllMovies();
+		
+		
+		//DBMANAGER
+	
+		Customer c= new Customer("Michal", 200);
+		
+		CustomerDBManager db= new CustomerDBManager();
+		
+		
+		db.addCustomer(c);
+
+		for(Customer customer: db.getAllcustomers())
+		{
+			System.out.println(customer);
+		}
+
+
 		
 	}
 
