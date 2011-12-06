@@ -19,7 +19,7 @@ public class CustomerDBManager {
 
 	private PreparedStatement addcustomerStmt;
 	private PreparedStatement getcustomersStmt;
-
+	private PreparedStatement deleteCustomerStmt;
 
 	public CustomerDBManager ()
 	{
@@ -58,6 +58,9 @@ public class CustomerDBManager {
 	getcustomersStmt=conn.prepareStatement("" +
 	"SELECT * FROM customer" +
 	"");
+	
+
+	deleteCustomerStmt = conn.prepareStatement("DELETE FROM customer");
 
 
 
@@ -100,7 +103,17 @@ public class CustomerDBManager {
 
 	return customers;
 	}
-
+	public void deleteAllPerson() 
+	{
+		try 
+		{
+			deleteCustomerStmt.executeUpdate();
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+	}
 
 	}
 
