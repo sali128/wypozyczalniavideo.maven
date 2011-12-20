@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 public class Customer {
-
+	private long id;
 	private Logger logger = Logger.getLogger(Customer.class);
 	private final String name;
 	private float cash;
@@ -52,6 +52,34 @@ public class Customer {
 			return priceToPay;
 		}
 		throw new NoMoneyException(); // ale jak nie mam pieniedzy to nie place
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Customer [id=" + id + ", logger=" + logger + ", name=" + name
+				+ ", cash=" + cash + ", myVideoList=" + myVideoList + "]";
+	}
+
+
+	public float getCash() {
+		return cash;
+	}
+
+
+	public void setCash(float cash) {
+		this.cash = cash;
+	}
+
+
+	public long getId() {
+		return id;
+	}
+
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 }

@@ -7,6 +7,7 @@ public class Movie {
 	private String director;
 	private boolean available;
 	private float price;
+	private int id;
 
 	public Movie(String title, ItemType type, String director, float price) {
 		super();
@@ -62,6 +63,14 @@ public class Movie {
 		return "Film [tytul=" + title + ", nosnik=" + type + ", rezyser="
 				+ director + ", dostepność=" + available + ", cena=" + price
 				+ "]";
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	
