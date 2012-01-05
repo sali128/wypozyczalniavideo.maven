@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import services.HistoryDBManager;
+
 public class Customer {
 	private long id;
 	private Logger logger = Logger.getLogger(Customer.class);
@@ -25,6 +27,13 @@ public class Customer {
 	public String getName() {
 		return name;
 	}
+	
+	public void showHistory() {
+		List<History> historyForCustomer = new HistoryDBManager().getHistoryForCustomer(this);
+		for (History history : historyForCustomer) {
+			System.out.println(this.getName() + " wypozyczyl " + history.getMovie() + " w dniu " + history.getTimestamp());
+		}
+	}
 
 
 	public void showAllMyRentedMovies() {
@@ -34,8 +43,11 @@ public class Customer {
 		}
 	}
 
-	public void takeMovie(Movie movie) {
+	public void takeMovieAndCreateHistoryLog(Movie movie) {
 		myVideoList.add(movie);
+
+		// add history information
+		new HistoryDBManager().addHistory(movie, this);
 	}
 
 	public Movie returnMovie(String title) {
@@ -58,7 +70,7 @@ public class Customer {
 
 	@Override
 	public String toString() {
-		return "Customer [id=" + id + ", logger=" + logger + ", name=" + name
+		return "Customer [id=" + id + ", name=" + name
 				+ ", cash=" + cash + ", myVideoList=" + myVideoList + "]";
 	}
 

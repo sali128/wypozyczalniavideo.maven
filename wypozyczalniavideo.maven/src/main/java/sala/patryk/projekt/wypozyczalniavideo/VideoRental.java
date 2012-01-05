@@ -1,9 +1,12 @@
 package sala.patryk.projekt.wypozyczalniavideo;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+
+import services.MovieDBManager;
 
 public class VideoRental {
 
@@ -12,7 +15,8 @@ public class VideoRental {
 	private static Logger logger = Logger.getLogger(VideoRental.class);
 
 	private List<Movie> videoList;
-
+	
+	private MovieDBManager movieDbManager;
 	public VideoRental() {
 		videoList = new ArrayList<Movie>();
 		logger.debug("Zrobiono nowa wypozyczalnie video");
@@ -76,7 +80,7 @@ public class VideoRental {
 			smerfyMovie.setAvailable(false); // film nie bedzie juz dostepny
 												// poniewaz wlasnie jest
 												// wypozyczany
-			customer.takeMovie(smerfyMovie);
+			customer.takeMovieAndCreateHistoryLog(smerfyMovie);
 			logger.debug("Klient " + customer.getName()
 					+ " wlasnie wypozyczyl film " + smerfyMovie.getTitle());
 		}

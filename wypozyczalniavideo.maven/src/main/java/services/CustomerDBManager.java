@@ -1,7 +1,5 @@
 package services;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,32 +9,29 @@ import java.util.List;
 
 import sala.patryk.projekt.wypozyczalniavideo.Customer;
 import sala.patryk.projekt.wypozyczalniavideo.InvalidMoneyAmountValue;
-import sala.patryk.projekt.wypozyczalniavideo.Movie;
 
-public class CustomerDBManager {
-
-	private Connection conn;
+public class CustomerDBManager extends DBManager {
 
 	private Statement stmt;
 
 	private PreparedStatement addcustomerStmt;
 	private PreparedStatement getcustomersStmt;
+	private PreparedStatement findByNameStmt;
 	private PreparedStatement deleteCustomerStmt;
 
-
-
-	public CustomerDBManager(Connection conn) throws InstantiationException,
+	public CustomerDBManager() throws InstantiationException,
 			IllegalAccessException, ClassNotFoundException {
 		try {
-			this.conn = conn;
 			
+			findByNameStmt = conn.prepareStatement("SELECT * FROM CUSTOMER WHERE name=?");
+
 			addcustomerStmt = conn.prepareStatement(""
 					+ "INSERT INTO customer (name, money) VALUES (?,?)");
 
 			getcustomersStmt = conn.prepareStatement("SELECT * FROM customer");
 
 			deleteCustomerStmt = conn.prepareStatement("DELETE FROM customer");
-			
+
 		} catch (SQLException e) {
 
 			e.printStackTrace();
@@ -52,8 +47,34 @@ public class CustomerDBManager {
 			e.printStackTrace();
 		}
 	}
+	
+	public Customer findCustomerByName(String customerName){
+		List<Customer> customers = new ArrayList<Customer>();
 
+		try {
+			findByNameStmt.setString(1, customerName);
+			ResultSet rs = findByNameStmt.executeQuery();
 
+			while (rs.next()) {
+				Customer customer = new Customer(rs.getString("name"),
+						rs.getFloat(("money")));
+				customer.setId(rs.getLong("id"));
+
+				return customer;
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidMoneyAmountValue e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+
+		return null;
+	}
 
 	public List<Customer> getAllcustomers() {
 		List<Customer> customers = new ArrayList<Customer>();
@@ -65,7 +86,7 @@ public class CustomerDBManager {
 				Customer customer = new Customer(rs.getString("name"),
 						rs.getFloat(("money")));
 				customer.setId(rs.getLong("id"));
-				
+
 				customers.add(customer);
 			}
 

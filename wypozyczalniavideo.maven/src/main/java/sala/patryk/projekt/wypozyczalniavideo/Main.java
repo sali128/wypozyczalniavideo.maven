@@ -1,14 +1,14 @@
 package sala.patryk.projekt.wypozyczalniavideo;
 
-import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-
 import org.apache.log4j.Logger;
 
+
+
+
+
 import services.CustomerDBManager;
-import services.DBManager;
 import services.MovieDBManager;
 
 public class Main {
@@ -65,65 +65,7 @@ public class Main {
 		customer2.showAllMyRentedMovies();
 
 		videoRental.printAllMovies();
-
-		// DBMANAGER
-
-		Customer c = null;
-		Customer c2 = null;
-		try {
-			c = new Customer("Michal", 200);
-			c2 = new Customer("Pawel", 100);
-		} catch (InvalidMoneyAmountValue e) {
-			e.printStackTrace();
-		}
-		try {
-
-			Connection connection = DBManager.createDatabaseConnection();
-
-			CustomerDBManager db = new CustomerDBManager(connection);
-
-			MovieDBManager mdb = new MovieDBManager(connection);
-
-			db.addCustomer(c);
-			db.addCustomer(c2);
-
-			List<Customer> allcustomers = db.getAllcustomers();
-
-			for (Customer customer : allcustomers) {
-				System.out.println(customer);
-			}
-
-			Customer customer = allcustomers.get(0);
-
-			mdb.addMovieToCustomer(customer, gladiatororMovie);
-			List<Movie> movies = mdb.findAllMovies();
-
-			for (Movie movie : movies) {
-				System.out.println(movie);
-			}
-
-			
-			for (Customer cc : db.getAllcustomers()) {
-				System.out.println(cc);
-			}
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		
+		
 	}
-
 }
